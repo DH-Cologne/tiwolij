@@ -104,6 +104,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<packagingExcludes>
+						WEB-INF/lib/log4j-*.jar,
 						WEB-INF/lib/tomcat-embed-*.jar
 					</packagingExcludes>
 				</configuration>
