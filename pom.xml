@@ -65,7 +65,13 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
@@ -82,7 +88,8 @@
 									<type>jar</type>
 									<includes>english/**,german/**,spanish/**</includes>
 									<outputDirectory>
-										${project.build.directory}/classes</outputDirectory>
+										${project.build.directory}/classes
+									</outputDirectory>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
@@ -97,8 +104,8 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<packagingExcludes>
-						WEB-INF/lib/tomcat-embed-logging-juli*.jar,
-						WEB-INF/lib/tomcat-embed-websocket-*.jar
+						WEB-INF/lib/log4j-*.jar,
+						WEB-INF/lib/tomcat-embed-*.jar
 					</packagingExcludes>
 				</configuration>
 			</plugin>
