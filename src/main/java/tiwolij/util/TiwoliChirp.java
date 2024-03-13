@@ -16,7 +16,7 @@ public class TiwoliChirp {
 	@Autowired
 	private MessageSource messages;
 
-	public String generateTwees(List<Quote> quotes, String baseUrl) {
+	public String generateTweets(List<Quote> quotes, String baseUrl) {
 		StringBuffer sb = new StringBuffer();
 		String text, date, time, imgUrl;
 
@@ -34,6 +34,28 @@ public class TiwoliChirp {
 
 		return sb.toString();
 	}
+	
+	public String generateMastodonPosts(List<Quote> quotes, String baseUrl) {
+		StringBuffer sb = new StringBuffer();
+		String text, date, time, imgUrl, picDesc;
+
+		for (Quote i : quotes) {
+			imgUrl = baseUrl + "/image/flashcard?id=" + i.getId() + "&lang=" + i.getLanguage();
+
+			text = getTweetContent(i, baseUrl);
+			time = (i.getTime() == null) ? TimeRandomizer.getRandomizedTime() : i.getTime();
+			date = (i.getYear() == null)
+					? i.getSchedule().replace("-", ".") + "." + Calendar.getInstance().get(Calendar.YEAR)
+					: i.getSchedule().replace("-", ".") + "." + i.getYear();
+			
+			picDesc = i.getCorpus().replaceAll("<[^>]*>", "");
+
+			sb.append(date + "\t" + time + "\t" + text + "\t" + imgUrl + "\tQuote: " + picDesc + "\n");
+		}
+
+		return sb.toString();
+	}
+	
 
 	private String getTweetContent(Quote quote, String baseUrl) {
 		String language = quote.getLanguage();
