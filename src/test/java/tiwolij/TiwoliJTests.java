@@ -147,7 +147,7 @@ class TiwoliJTests {
 	void exportsMastodonPosts() throws Exception {
 		String tsv = mvc.perform(post("/tiwolij/data/export/posts")).andExpect(status().isOk()).andReturn()
 				.getResponse().getContentAsString();
-		assertThat(tsv).contains("/image/flashcard?id=");
+		assertThat(tsv).contains("https://tiwoli.spinfo.uni-koeln.de/image/flashcard?id=");
 	}
 
 }

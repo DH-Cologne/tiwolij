@@ -173,9 +173,12 @@ public class Export {
 		}
 
 		String tweets = chirper.generateMastodonPosts(list, baseUrl);
+		
+		//todo set exportFileName
+		//String exportFileName = "posts_" + onlylang + "_" + onlymonth + ".tsv";
 
 		response.setContentType("application/tsv");
-		response.setHeader("Content-Disposition", "attachment; filename=posts.tsv");
+		response.setHeader("Content-Disposition", "attachment; filename=posts_db.tsv");
 		response.getOutputStream().write(tweets.getBytes("UTF-8"));
 		response.getOutputStream().close();
 	}

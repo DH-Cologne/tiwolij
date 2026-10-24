@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
@@ -16,9 +17,14 @@ public class TiwoliChirp {
 	@Autowired
 	private MessageSource messages;
 
+	// public URL for links in exports; empty = derive from the request
+	@Value("${tiwolij.baseurl:}")
+	private String publicBaseUrl;
+
 	public String generateTweets(List<Quote> quotes, String baseUrl) {
 		StringBuffer sb = new StringBuffer();
 		String text, date, time, imgUrl;
+		baseUrl = publicBaseUrl(baseUrl);
 
 		for (Quote i : quotes) {
 			imgUrl = baseUrl + "/image/flashcard?id=" + i.getId() + "&lang=" + i.getLanguage();
@@ -38,6 +44,7 @@ public class TiwoliChirp {
 	public String generateMastodonPosts(List<Quote> quotes, String baseUrl) {
 		StringBuffer sb = new StringBuffer();
 		String text, date, time, imgUrl, picDesc;
+		baseUrl = publicBaseUrl(baseUrl);
 
 		for (Quote i : quotes) {
 			imgUrl = baseUrl + "/image/flashcard?id=" + i.getId() + "&lang=" + i.getLanguage();
@@ -56,6 +63,10 @@ public class TiwoliChirp {
 		return sb.toString();
 	}
 	
+
+	private String publicBaseUrl(String requestBaseUrl) {
+		return (publicBaseUrl.isEmpty()) ? requestBaseUrl : publicBaseUrl.replaceAll("/+$", "");
+	}
 
 	private String getTweetContent(Quote quote, String baseUrl) {
 		String language = quote.getLanguage();
